@@ -15,7 +15,7 @@ class ArrayList:
         self.capacity = 4
         self.count = 0
         self.arr = [0]*self.capacity
-
+        print("test")
     #Time complexity: O(n) - linear time in size of list
     def __str__(self):
         return_string = ""
