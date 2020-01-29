@@ -95,7 +95,7 @@ class ArrayList:
         if self.count > 0:
             self.count -= 1
             for i in range(index, self.count):
-                self.set_at(self.arr[i+1], i)
+                self.set_at(self.arr[i+1], i)            
             
         else:
             raise Empty()
