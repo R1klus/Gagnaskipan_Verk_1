@@ -15,7 +15,6 @@ class ArrayList:
         self.capacity = 4
         self.count = 0
         self.arr = [0]*self.capacity
-        print("test")
     #Time complexity: O(n) - linear time in size of list
     def __str__(self):
         return_string = ""
@@ -26,13 +25,27 @@ class ArrayList:
 
     #Time complexity: O(n) - linear time in size of list
     def prepend(self, value):
-        # TODO: remove 'pass' and implement functionality
-        pass
+        if self.count > 0:
+            if self.count == self.capacity:
+                self.resize()
+            for i in range(self.count, 0, -1):
+                self.set_at(self.arr[i-1], i)
+            self.set_at(value, 0)
+            self.count += 1
+        else:
+            raise Empty()
 
     #Time complexity: O(n) - linear time in size of list
     def insert(self, value, index):
-        # TODO: remove 'pass' and implement functionality
-        pass
+        if self.count > 0:
+            if self.count == self.capacity:
+                self.resize()
+            for i in range(self.count, index, -1):
+                self.set_at(self.arr[i-1], i)
+            self.set_at(value, index)
+            self.count += 1
+        else:
+            raise Empty()
 
     #Time complexity: O(1) - constant time
     def append(self, value):
@@ -43,27 +56,31 @@ class ArrayList:
 
     #Time complexity: O(1) - constant time
     def set_at(self, value, index):
-        # TODO: remove 'pass' and implement functionality
-        pass
+        if index <= self.count:
+            self.arr[index] = value
+        else:
+            raise IndexOutOfBounds()
 
     #Time complexity: O(1) - constant time
     def get_first(self):
         if self.count > 0:
             return self.arr[0]
         else:
-            return None
+            raise Empty()
 
     #Time complexity: O(1) - constant time
     def get_at(self, index):
-        # TODO: remove 'pass' and implement functionality
-        pass
+        if index <= self.count-1:
+            return self.arr[index]
+        else:
+            raise IndexOutOfBounds()
 
     #Time complexity: O(1) - constant time
     def get_last(self):
         if self.count > 0:
             return self.arr[self.count-1]
         else:
-            return None
+            raise Empty()
 
     #Time complexity: O(n) - linear time in size of list
     def resize(self):
@@ -75,13 +92,17 @@ class ArrayList:
 
     #Time complexity: O(n) - linear time in size of list
     def remove_at(self, index):
-        # TODO: remove 'pass' and implement functionality
-        pass
+        if self.count > 0:
+            self.count -= 1
+            for i in range(index, self.count):
+                self.set_at(self.arr[i+1], i)
+            
+        else:
+            raise Empty()
 
     #Time complexity: O(1) - constant time
     def clear(self):
-        # TODO: remove 'pass' and implement functionality
-        pass
+        self.count = 0
 
     #Time complexity: O(n) - linear time in size of list
     #Time complexity: O(log n) - logarithmic time in size of list
@@ -114,5 +135,10 @@ if __name__ == "__main__":
     arr_lis.append(3)
     arr_lis.append(4)
     arr_lis.append(5)
-    
+    print(str(arr_lis))
+    arr_lis.prepend(42)
+    print(str(arr_lis))
+    arr_lis.insert(56,2)
+    print(str(arr_lis))
+    arr_lis.remove_at(3)
     print(str(arr_lis))
