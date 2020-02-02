@@ -19,29 +19,35 @@ class ArrayList:
     #Time complexity: O(n) - linear time in size of list
     def __str__(self):
         return_string = ""
-        for i in range(self.count-1):
-            return_string += str(self.arr[i])+","
-        return_string += str(self.arr[self.count-1])
-        return return_string
+        for x in range(self.count):
+            return_string += "{}, ".format(self.arr[x])
+        return return_string[:-2]
 
     #Time complexity: O(n) - linear time in size of list
     def prepend(self, value):
         if self.count == self.capacity:
             self.resize()
-        for i in range(self.count, 0, -1):
-            self.set_at(self.arr[i-1], i)
-        self.set_at(value, 0)
+        if self.count == 0:
+            self.arr[0] = value
+        else:
+            for i in range(self.count, 0, -1):
+                self.arr[i] = self.arr[i-1]
+            self.arr[0] = value
         self.count += 1
+            
+        
         
     #Time complexity: O(n) - linear time in size of list
     def insert(self, value, index):
-        if self.count > 0:
+        if index <= self.count and index >= 0:
             if self.count == self.capacity:
                 self.resize()
+            
             for i in range(self.count, index, -1):
-                self.set_at(self.arr[i-1], i)
-            self.set_at(value, index)
+                self.arr[i] = self.arr[i-1]
             self.count += 1
+            self.set_at(value, index)
+            
         else:
             raise IndexOutOfBounds()
 
@@ -54,7 +60,7 @@ class ArrayList:
 
     #Time complexity: O(1) - constant time
     def set_at(self, value, index):
-        if index <= self.count:
+        if self.count > 0 and index < self.count and index >= 0:
             self.arr[index] = value
         else:
             raise IndexOutOfBounds()
@@ -68,7 +74,7 @@ class ArrayList:
 
     #Time complexity: O(1) - constant time
     def get_at(self, index):
-        if index <= self.count-1:
+        if self.count > 0 and index < self.count and index >= 0:
             return self.arr[index]
         else:
             raise IndexOutOfBounds()
@@ -90,7 +96,7 @@ class ArrayList:
 
     #Time complexity: O(n) - linear time in size of list
     def remove_at(self, index):
-        if self.count > 0:
+        if 0 <= index and index < self.count:
             self.count -= 1
             for i in range(index, self.count):
                 self.set_at(self.arr[i+1], i)            
@@ -110,7 +116,7 @@ class ArrayList:
             elif value >= self.arr[self.count-1]:
                 self.append(value)
             else:
-                for i in range(1, self.count-1):
+                for i in range(self.count):
                     if self.arr[i] <= value <= self.arr[i+1]:
                         self.insert(value, i+1)
                         break
@@ -124,7 +130,7 @@ class ArrayList:
             returnVal = self.__binarySearch(0, self.count-1, value)
         else:
             returnVal = self.__linearSearch(value)
-        if returnVal != False:
+        if returnVal != False or type(returnVal).__name__ == "int":
             return returnVal
         else:
             raise NotFound()
@@ -143,10 +149,10 @@ class ArrayList:
             middle = start + ((end-start)//2)
             if self.arr[middle] == value:
                 return middle
-            elif self.arr[middle] < value:
-                return self.__binarySearch(middle+1, end, value)
-            else:
+            elif self.arr[middle] > value:
                 return self.__binarySearch(start, middle-1, value)
+            else:
+                return self.__binarySearch(middle+1, end, value)
         return False
 
         
@@ -172,11 +178,14 @@ if __name__ == "__main__":
     # add your tests here or in a different file.
     # Do not add them outside this if statement
     # and make sure they are at this indent level
-    the_list = [44,28,41,93,34,83,52,85,34,74,65,78,43,10,39,13,76,33,44,21,29,16,91,95,82,96,38,73,26,86,23,512]
+    
+    the_list = [10, 11, 12, 13, 13, 13, 14, 15, 15, 16, 18, 18, 18, 19, 22, 22, 23, 24, 24, 25, 27, 28, 28, 28, 29, 29, 29, 29, 30]
     arr_lis = ArrayList()
     for x in the_list:
         arr_lis.append(x)
+    arr_lis.remove_value(10)
+    # arr_lis = ArrayList()
+    # print(arr_lis)
+    # arr_lis.prepend(2)
+    # arr_lis.prepend(23)
     print(arr_lis)
-    print(arr_lis.find(512))
-
-    print(str(arr_lis))
