@@ -26,16 +26,13 @@ class ArrayList:
 
     #Time complexity: O(n) - linear time in size of list
     def prepend(self, value):
-        if self.count > 0:
-            if self.count == self.capacity:
-                self.resize()
-            for i in range(self.count, 0, -1):
-                self.set_at(self.arr[i-1], i)
-            self.set_at(value, 0)
-            self.count += 1
-        else:
-            raise Empty()
-
+        if self.count == self.capacity:
+            self.resize()
+        for i in range(self.count, 0, -1):
+            self.set_at(self.arr[i-1], i)
+        self.set_at(value, 0)
+        self.count += 1
+        
     #Time complexity: O(n) - linear time in size of list
     def insert(self, value, index):
         if self.count > 0:
@@ -46,7 +43,7 @@ class ArrayList:
             self.set_at(value, index)
             self.count += 1
         else:
-            raise Empty()
+            raise IndexOutOfBounds()
 
     #Time complexity: O(1) - constant time
     def append(self, value):
@@ -98,7 +95,7 @@ class ArrayList:
             for i in range(index, self.count):
                 self.set_at(self.arr[i+1], i)            
         else:
-            raise Empty()
+            raise IndexOutOfBounds()
 
     #Time complexity: O(1) - constant time
     def clear(self):
@@ -133,7 +130,7 @@ class ArrayList:
             raise NotFound()
 
     def __linearSearch(self, value, index = 0):
-        if index <= self.count:
+        if index < self.count:
             if value == self.arr[index]:
                 return index
             else:
@@ -175,16 +172,11 @@ if __name__ == "__main__":
     # add your tests here or in a different file.
     # Do not add them outside this if statement
     # and make sure they are at this indent level
-
+    the_list = [44,28,41,93,34,83,52,85,34,74,65,78,43,10,39,13,76,33,44,21,29,16,91,95,82,96,38,73,26,86,23,512]
     arr_lis = ArrayList()
-    arr_lis.append(1)
-    arr_lis.append(4)
-    arr_lis.append(3)
-    arr_lis.append(4)
-    arr_lis.append(4)
-    arr_lis.append(4)
-    arr_lis.append(7)
+    for x in the_list:
+        arr_lis.append(x)
     print(arr_lis)
-    arr_lis.remove_value(4)
+    print(arr_lis.find(512))
 
     print(str(arr_lis))
